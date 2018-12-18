@@ -88,7 +88,13 @@ build-data-generator:
 build: build-ra-core build-ra-ui-materialui build-react-admin build-ra-data-fakerest build-ra-data-json-server build-ra-data-simple-rest build-ra-data-graphql build-ra-data-graphcool build-ra-data-graphql-simple build-ra-input-rich-text build-ra-realtime build-ra-tree-core build-ra-tree-ui-materialui build-data-generator ## compile ES6 files to JS
 
 doc: ## compile doc as html and launch doc web server
-	@yarn -s doc
+	@docker run -it --rm \
+		-p 4000:4000 \
+		-v "${PWD}/docs:/usr/src/app" \
+		starefossen/github-pages:onbuild \
+		jekyll serve \
+			--host=0.0.0.0 \
+			--incremental
 
 lint: ## lint the code and check coding conventions
 	@echo "Running linter..."
